@@ -3,11 +3,13 @@ package ru.tsu.myweather
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.tsu.myweather.models.Data
+
 //TODO добавить картинку
 //TODO добавить прогноз
 //TODO добавить спиннер
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Log.d("M_MainActivity","response " + response.body())
                     txt_search_result.text = response.body()?.current?.temperature
+                    Picasso.with(baseContext).load(response.body()?.current?.weather_icons?.get(0)).into(iv_icon)
                 } else {
                     Log.d("M_MainActivity","response code " + response.code())
                 }
