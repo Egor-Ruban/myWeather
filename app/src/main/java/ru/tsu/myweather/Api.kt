@@ -7,6 +7,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.tsu.myweather.models.Data
 
+
+
 interface Api {
 
     @GET("current")
@@ -15,6 +17,11 @@ interface Api {
     ) : Call<Data.Model>
 
     companion object {
+
+        val api by lazy {
+            Api.create()
+        }
+
         fun create(): Api {
 
             val retrofit = Retrofit.Builder()
