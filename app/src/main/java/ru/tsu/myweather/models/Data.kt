@@ -1,48 +1,54 @@
 package ru.tsu.myweather.models
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+object Data{
+    data class Model(
+        val request : Request,
+        val location: Location,
+        val current: Current,
+        val error: Error
+    )
 
-data class Model(
-    var current: Current,
-    var location: Location,
-    var request: Request
-)
+    data class Request(
+        val type : String,
+        val query : String,
+        val language : String,
+        val unit : String
+    )
 
-data class Current(
-    var observationTime: String? = null,
-var temperature: Int = 20,
-var weatherCode: Int? = null,
-var weatherIcons: List<String>? = null,
-var weatherDescriptions: List<String>? = null,
-var windSpeed: Int? = null,
-var windDegree: Int? = null,
-var windDir: String? = null,
-var pressure: Int? = null,
-var precip: Int? = null,
-var humidity: Int? = null,
-var cloudcover: Int? = null,
-var feelslike: Int? = null,
-var uvIndex: Int? = null,
-var visibility: Int? = null,
-var isDay: String? = null
-)
+    data class Location(
+        val name : String,
+        val country : String,
+        val region : String,
+        val lat : String,
+        val lon : String,
+        val timezone_id : String,
+        val localtime : String,
+        val localtime_epoch : Int,
+        val utc_offset : String
+    )
 
-data class Location(
-    var name : String ,
-    var country : String ,
-    var region : String ,
-    var lat : String ,
-    var lon : String ,
-    var timezoneId : String ,
-    var localtime : String ,
-    var localtimeEpoch : Int ,
-    var utcOffset : String
-)
-data class Request (
+    data class Current(
+        val observation_time : String,
+        val temperature : String,
+        val weather_code : String,
+        val weather_icons : List<String>,
+        val weather_descriptions : List<String>,
+        val wind_speed : String,
+        val wind_degree : String,
+        val wind_dir : String,
+        val pressure : String,
+        val precip : String,
+        val humidity : String,
+        val cloudcover : String,
+        val feelslike : String,
+        val uv_index : String,
+        val visibility : String,
+        val is_day : String
+    )
 
-    var type : String ,
-    var query : String ,
-    var language : String ,
-    var unit : String
-)
+    data class Error(
+        val code : String,
+        val type : String,
+        val info : String
+    )
+}

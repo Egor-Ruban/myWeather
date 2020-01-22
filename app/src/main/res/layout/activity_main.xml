@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="enter city"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:text="Tomsk"/>
 
     <Button
         android:id="@+id/btn_search"
