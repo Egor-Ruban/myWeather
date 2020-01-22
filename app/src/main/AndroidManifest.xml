@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MenuActivity"/>
-        <activity android:name=".activities.WeatherActivity"/>
+        <activity android:name=".activities.SlideActivity"/>
     </application>
 
 </manifest>

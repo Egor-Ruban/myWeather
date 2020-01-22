@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.provider.BaseColumns
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_menu.*
-import kotlinx.android.synthetic.main.activity_weather.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,11 +15,10 @@ import ru.tsu.myweather.models.Data
 //TODO добавить прогноз
 //TODO добавить спиннер
 //tODO добавить удаление ненужных городов
-//TODO добавить автообновление
-//TODO добавить анимацию
+//TODO зменить стартовую страницу
+//TODO перенести меню
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,8 +26,6 @@ class MainActivity : AppCompatActivity() {
         updateWeather()
         startActivity(int)
     }
-
-
 
     fun updateWeather(){
         val dbHelper = CitiesDBHelper(baseContext)
@@ -61,9 +55,9 @@ class MainActivity : AppCompatActivity() {
                 response: Response<Data.Model>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("M_MainActivity","response " + response.body())
+
                     container.add(response.body()!!)
-                    Log.d("M_MenuActivity", "cnt ${container}")
+
                 } else {
                     Log.d("M_MainActivity","response code " + response.code())
                 }

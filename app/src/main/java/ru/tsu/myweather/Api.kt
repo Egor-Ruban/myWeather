@@ -19,14 +19,13 @@ interface Api {
     companion object {
 
         val api by lazy {
-            Api.create()
+            create()
         }
 
         fun create(): Api {
 
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                //.baseUrl("https://en.wikipedia.org/w/")
                 .baseUrl("http://api.weatherstack.com/")
                 .build()
 

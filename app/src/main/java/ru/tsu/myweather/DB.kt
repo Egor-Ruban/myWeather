@@ -19,7 +19,9 @@ object DBCities : BaseColumns{
 }
 var container = mutableListOf<Data.Model>()
 
+
 class CitiesDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DBCities.SQL_CREATE_ENTRIES)
     }
@@ -29,6 +31,7 @@ class CitiesDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     companion object {
+
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "weather.db"
     }
