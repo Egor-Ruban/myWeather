@@ -95,11 +95,6 @@ class WeatherDBHelper(context: Context) :
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DBWeather.SQL_CREATE_ENTRIES)
         db.execSQL(DBCities.SQL_CREATE_ENTRIES)
-        val values = ContentValues().apply {
-            put(DBCities.COLUMN_NAME_CITY, "fetch:ip")
-        }
-        db.insert(DBCities.TABLE_NAME, null, values)
-        Api.beginSearch(ctx, "fetch:ip")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -156,7 +151,57 @@ class WeatherDBHelper(context: Context) :
                     put(DBWeather.ERROR_INFO, data.error.info)
                 }
             }
+            Log.d("M_DBWeather", "insert")
             db?.insert(DBWeather.TABLE_NAME, null, values)
+        }
+
+        fun updateWeather(ctx : Context, data : Data.Model){
+            val dbHelper = WeatherDBHelper(ctx)
+            val db = dbHelper.writableDatabase
+
+            val values = ContentValues().apply {
+            if(data.request != null) {
+                put(DBWeather.REQUEST_TYPE, data.request.type)
+                put(DBWeather.REQUEST_QUERY, data.request.query)
+                put(DBWeather.REQUEST_LANGUAGE, data.request.language)
+                put(DBWeather.REQUEST_UNIT, data.request.unit)
+                put(DBWeather.LOCATION_NAME, data.location.name)
+                put(DBWeather.LOCATION_COUNTRY, data.location.country)
+                put(DBWeather.LOCATION_REGION, data.location.region)
+                put(DBWeather.LOCATION_LAT, data.location.lat)
+                put(DBWeather.LOCATION_LON, data.location.lon)
+                put(DBWeather.LOCATION_TIMEZONE_ID, data.location.timezone_id)
+                put(DBWeather.LOCATION_LOCALTIME, data.location.localtime)
+                put(DBWeather.LOCATION_LOCALTIME_EPOCH, data.location.localtime_epoch)
+                put(DBWeather.LOCATION_UTC_OFFSET, data.location.utc_offset)
+                put(DBWeather.CURRENT_OBSERVATION_TIME, data.current.observation_time)
+                put(DBWeather.CURRENT_TEMPERATURE, data.current.temperature)
+                put(DBWeather.CURRENT_WEATHER_CODE, data.current.weather_code)
+                put(DBWeather.CURRENT_WEATHER_ICONS, data.current.weather_icons[0])
+                put(
+                    DBWeather.CURRENT_WEATHER_DESCRIPTIONS,
+                    data.current.weather_descriptions[0]
+                )
+                put(DBWeather.CURRENT_WIND_SPEED, data.current.wind_speed)
+                put(DBWeather.CURRENT_WIND_DEGREE, data.current.wind_degree)
+                put(DBWeather.CURRENT_WIND_DIR, data.current.wind_dir)
+                put(DBWeather.CURRENT_PRESSURE, data.current.pressure)
+                put(DBWeather.CURRENT_PRECIP, data.current.precip)
+                put(DBWeather.CURRENT_HUMIDITY, data.current.humidity)
+                put(DBWeather.CURRENT_CLOUDCOVER, data.current.cloudcover)
+                put(DBWeather.CURRENT_FEELSLIKE, data.current.feelslike)
+                put(DBWeather.CURRENT_UV_INDEX, data.current.uv_index)
+                put(DBWeather.CURRENT_VISIBILITY, data.current.visibility)
+                put(DBWeather.CURRENT_IS_DAY, data.current.is_day)
+            }
+            if(data.error != null){
+                put(DBWeather.ERROR_CODE, data.error.code)
+                put(DBWeather.ERROR_TYPE, data.error.type)
+                put(DBWeather.ERROR_INFO, data.error.info)
+            }
+        }
+            Log.d("M_DBWeather", "update")
+            db.update(DBWeather.TABLE_NAME, values, "${DBWeather.LOCATION_NAME} = ?", arrayOf(data.location.name))
         }
 
         fun getSize(ctx: Context) : Int{

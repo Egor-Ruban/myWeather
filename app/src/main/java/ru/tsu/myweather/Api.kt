@@ -47,6 +47,29 @@ interface Api {
                 }
             })
         }
+
+        fun updateData(ctx:Context, city : String){
+            val res = api.getModel("6da4cdcc62d4d30bdd4a317b7dea6ecf", city)
+            res.enqueue(object : Callback<Data.Model> {
+                override fun onResponse(
+                    call: Call<Data.Model>?,
+                    response: Response<Data.Model>
+                ) {
+                    if (response.isSuccessful) {
+                        WeatherDBHelper.updateWeather(ctx, response.body()!!)
+                    } else {
+                        Log.d("M_MenuActivity", "response code " + response.code())
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<Data.Model>?,
+                    t: Throwable
+                ) {
+                    Log.d("M_MenuActivity", "failure $t")
+                }
+            })
+        }
         private fun create(): Api {
 
             val retrofit = Retrofit.Builder()
