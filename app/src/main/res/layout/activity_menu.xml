@@ -9,7 +9,9 @@
         android:layout_height="wrap_content"
         android:hint="enter city"
         android:textAlignment="center"
-        android:text="Tomsk"/>
+        android:text="Tomsk"
+        android:maxLines="1"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ- "/>
     <Button
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
@@ -25,5 +27,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/reset_db"
         android:text="reset"/>
+    <ImageView
+        android:id="@+id/iv_cat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:src="@drawable/cat"/>
 
 </LinearLayout>

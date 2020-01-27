@@ -4,20 +4,14 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_menu.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.http.Body
 import ru.tsu.myweather.*
-import ru.tsu.myweather.models.Data
+import ru.tsu.myweather.models.*
 
 class MenuActivity : AppCompatActivity() {
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +26,27 @@ class MenuActivity : AppCompatActivity() {
             addCity(city)
         }
         reset_db.setOnClickListener {
-            val dbHelper = CitiesDBHelper(baseContext)
+            val dbHelper = WeatherDBHelper(baseContext)
             val db = dbHelper.writableDatabase
             db.execSQL(DBCities.SQL_DELETE_ENTRIES)
             db.execSQL(DBCities.SQL_CREATE_ENTRIES)
-            container = mutableListOf()
+            db.execSQL(DBWeather.SQL_DELETE_ENTRIES)
+            db.execSQL(DBWeather.SQL_CREATE_ENTRIES)
+            val values = ContentValues().apply {
+                put(DBCities.COLUMN_NAME_CITY, "fetch:ip")
+            }
+            db.insert(DBCities.TABLE_NAME, null, values)
+            Api.beginSearch(baseContext, "fetch:ip")
         }
     }
 
-
-
-    fun addCity(city : String){
-        if(checkCity(city)){
-            val dbHelper = CitiesDBHelper(baseContext)
+    private fun addCity(city: String) {
+        if(city.toLowerCase() == "meow"){
+            iv_cat.visibility = View.VISIBLE
+            return
+        }
+        if (checkCity(city)) {
+            val dbHelper = WeatherDBHelper(baseContext)
             val db = dbHelper.writableDatabase
 
             val values = ContentValues().apply {
@@ -52,49 +54,33 @@ class MenuActivity : AppCompatActivity() {
             }
             db?.insert(DBCities.TABLE_NAME, null, values)
 
-            beginSearch(city) // вынести в проверку
+            Api.beginSearch(baseContext, city) // вынести в проверку
+            Toast.makeText(this,"city added",Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this,"city not added",Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun checkCity(city : String) : Boolean{
-        val dbHelper = CitiesDBHelper(baseContext)
+        return checkCityInDB(city)
+    }
+
+    private fun checkCityInDB(city: String): Boolean {
+        val dbHelper = WeatherDBHelper(baseContext)
         val dbr = dbHelper.readableDatabase
 
         val projection = arrayOf(BaseColumns._ID, DBCities.COLUMN_NAME_CITY)
         val selection = "${DBCities.COLUMN_NAME_CITY} = ?"
         val selectionArgs = arrayOf(city.toLowerCase())
         val cursor = dbr.query(
-            DBCities.TABLE_NAME,   // The table to query
-            projection,             // The array of columns to return (pass null to get all)
-            selection,              // The columns for the WHERE clause
-            selectionArgs,          // The values for the WHERE clause
-            null,                   // don't group the rows
-            null,                   // don't filter by row groups
-            null              // The sort order
+            DBCities.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
         )
         return cursor.count == 0
-    }
-
-    private fun beginSearch(searchString: String) {
-        val res = Api.api.getModel("6da4cdcc62d4d30bdd4a317b7dea6ecf", searchString)
-        res.enqueue(object : Callback<Data.Model> {
-            override fun onResponse(
-                call: Call<Data.Model>?,
-                response: Response<Data.Model>
-            ) {
-                if (response.isSuccessful) {
-                    container.add(response.body()!!)
-                } else {
-                    Log.d("M_MenuActivity","response code " + response.code())
-                }
-            }
-
-            override fun onFailure(
-                call: Call<Data.Model>?,
-                t: Throwable
-            ) {
-                Log.d("M_MenuActivity","failure $t")
-            }
-        })
     }
 }
