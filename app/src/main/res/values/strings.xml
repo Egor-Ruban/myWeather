@@ -1,4 +1,139 @@
 <resources>
     <string name="app_name">MyWeather</string>
     <string name="api_key">4589e6700339bdf5930f54fa7d513268</string>
+    <string-array name="cities">
+        <item>Tomsk</item>
+        <item>Krasnoyarsk</item>
+        <item>Dubai</item>
+        <item>Kuala Lumpur</item>
+        <item>Cebu City</item>
+        <item>Maputo</item>
+        <item>Budapest</item>
+        <item>Warsaw</item>
+        <item>Lusaka</item>
+        <item>Kathmandu</item>
+        <item>Tabriz</item>
+        <item>Hyderabad</item>
+        <item>Palembang</item>
+        <item>Tijuana</item>
+        <item>Patna</item>
+        <item>Montreal</item>
+        <item>Davao City</item>
+        <item>Harare</item>
+        <item>Barcelona</item>
+        <item>Maracaibo</item>
+        <item>Caloocan</item>
+        <item>Philadelphia</item>
+        <item>Novosibirsk</item>
+        <item>Phoenix</item>
+        <item>Oran</item>
+        <item>Semarang</item>
+        <item>Recife</item>
+        <item>Kobe</item>
+        <item>Daejeon</item>
+        <item>Kampala</item>
+        <item>Kawasaki</item>
+        <item>Guadalajara</item>
+        <item>Auckland</item>
+        <item>Vijayawada</item>
+        <item>Fukuoka</item>
+        <item>Gwangju</item>
+        <item>Porto Alegre</item>
+        <item>Kyoto</item>
+        <item>San Antonio</item>
+        <item>Santa Cruz de la Sierra</item>
+        <item>Munich</item>
+        <item>Kharkiv</item>
+        <item>Yekaterinburg</item>
+        <item>San Diego</item>
+        <item>Barranquilla</item>
+        <item>Milan</item>
+        <item>Ibadan</item>
+        <item>Makassar</item>
+        <item>Córdoba</item>
+        <item>Prague</item>
+        <item>Mandalay</item>
+        <item>Dallas</item>
+        <item>Montevideo</item>
+        <item>Qom</item>
+        <item>Ahvaz</item>
+        <item>Sofia</item>
+        <item>Kazan</item>
+        <item>Nizhny Novgorod</item>
+        <item>Abuja</item>
+        <item>Calgary</item>
+        <item>Saitama</item>
+        <item>Suwon</item>
+        <item>Hiroshima</item>
+        <item>Rosario</item>
+        <item>Brisbane</item>
+        <item>Allahabad</item>
+        <item>Belgrade</item>
+        <item>Campinas</item>
+        <item>Ulsan</item>
+        <item>Albuquerque</item>
+        <item>Omsk</item>
+        <item>Dakar</item>
+        <item>Abu Dhabi</item>
+        <item>Monterrey</item>
+        <item>Tripoli</item>
+        <item>Rostov-on-Don</item>
+        <item>T\'bilisi</item>
+        <item>Fez</item>
+        <item>Birmingham</item>
+        <item>Yerevan</item>
+        <item>Cologne</item>
+        <item>Tunis</item>
+        <item>Bulawayo</item>
+        <item>Nur-Sultan</item>
+        <item>Islamabad</item>
+        <item>Cartagena</item>
+        <item>Tucson</item>
+        <item>Chongqing</item>
+        <item>Shanghai</item>
+        <item>Beijing</item>
+        <item>Lagos</item>
+        <item>Mumbai</item>
+        <item>Dhaka</item>
+        <item>Chengdu</item>
+        <item>Karachi</item>
+        <item>Guangzhou</item>
+        <item>Istanbul</item>
+        <item>Tokyo</item>
+        <item>Tianjin</item>
+        <item>Moscow</item>
+        <item>São Paulo</item>
+        <item>Kinshasa</item>
+        <item>Delhi</item>
+        <item>Baoding</item>
+        <item>Lahore</item>
+        <item>Wuhan</item>
+        <item>Cairo</item>
+        <item>Seoul</item>
+        <item>Jakarta</item>
+        <item>Lima</item>
+        <item>Mexico City</item>
+        <item>London</item>
+        <item>Bangkok</item>
+        <item>Xi\'an</item>
+        <item>Bangalore</item>
+        <item>New York</item>
+        <item>Ho Chi Minh City</item>
+        <item>Rio de Janeiro</item>
+        <item>Los Angeles</item>
+        <item>Buenos Aires</item>
+        <item>Shenzhen</item>
+        <item>Suzhou</item>
+        <item>Nanjing</item>
+        <item>Tehran</item>
+        <item>Bogotá</item>
+        <item>Shantou</item>
+        <item>Kolkata</item>
+        <item>Shijiazhuang</item>
+        <item>Harbin</item>
+        <item>Osaka</item>
+        <item>Nagoya</item>
+        <item>Paris</item>
+        <item>Manila</item>
+    </string-array>
 </resources>

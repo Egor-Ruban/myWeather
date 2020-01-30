@@ -23,11 +23,6 @@ import kotlinx.coroutines.*
 var start = false
 
 class SlideActivity : FragmentActivity() {
-    //TODO добавить обработку неправильно введенных городов
-    //TODO добавить спиннер
-    //tODO добавить удаление ненужных городов
-    //TODO передлать обновление
-    //TODO вынести обновление первой страницы отдельно
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

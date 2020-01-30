@@ -1,17 +1,25 @@
 package ru.tsu.myweather.activities
 
+
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.provider.BaseColumns
-import android.transition.Slide
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_menu.*
-import ru.tsu.myweather.*
-import ru.tsu.myweather.models.*
+import ru.tsu.myweather.Api
+import ru.tsu.myweather.R
+import ru.tsu.myweather.models.DBCities
+import ru.tsu.myweather.models.DBWeather
+import ru.tsu.myweather.models.WeatherDBHelper
+
 
 class MenuActivity : AppCompatActivity() {
 
@@ -33,6 +41,21 @@ class MenuActivity : AppCompatActivity() {
             db.delete(DBCities.TABLE_NAME,null,null)
             db.delete(DBWeather.TABLE_NAME,null,null)
             addCity("fetch:ip")
+        }
+        val citiesAdapter =
+            ArrayAdapter.createFromResource(baseContext,
+                R.array.cities,
+                android.R.layout.simple_spinner_item)
+        spinner.adapter = citiesAdapter
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                itemSelected: View, selectedItemPosition: Int, selectedId: Long
+            ) {
+                addCity((itemSelected as TextView).text.toString())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 

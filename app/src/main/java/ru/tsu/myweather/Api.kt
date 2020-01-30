@@ -28,8 +28,8 @@ interface Api {
         val api by lazy {
             create()
         }
-        fun beginSearch(ctx : Context, searchString: String) {
-            val res = api.getModel("4589e6700339bdf5930f54fa7d513268", searchString)
+        fun beginSearch(ctx : Context, city: String) {
+            val res = api.getModel(ctx.resources.getString(R.string.api_key), city)
             res.enqueue(object : Callback<Data.Model> {
                 override fun onResponse(
                     call: Call<Data.Model>?,
@@ -52,7 +52,7 @@ interface Api {
         }
 
         fun updateData(ctx:Context, city : String, isFirst : Boolean){
-            val res = api.getModel("4589e6700339bdf5930f54fa7d513268", city)
+            val res = api.getModel(ctx.resources.getString(R.string.api_key), city)
             res.enqueue(object : Callback<Data.Model> {
                 override fun onResponse(
                     call: Call<Data.Model>?,

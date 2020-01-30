@@ -33,5 +33,9 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:src="@drawable/cat"/>
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
