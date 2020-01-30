@@ -18,6 +18,9 @@ import ru.tsu.myweather.models.DBCities
 import ru.tsu.myweather.models.DBWeather
 import ru.tsu.myweather.models.SlideFragment
 import ru.tsu.myweather.models.WeatherDBHelper
+import kotlinx.coroutines.*
+
+var start = false
 
 class SlideActivity : FragmentActivity() {
     //TODO добавить обработку неправильно введенных городов
@@ -25,10 +28,11 @@ class SlideActivity : FragmentActivity() {
     //tODO добавить удаление ненужных городов
     //TODO передлать обновление
     //TODO вынести обновление первой страницы отдельно
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.weather_activity)
-            //updateWeather()
+                //updateWeather()
             val pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)
             vp_weather.adapter = pagerAdapter
 
@@ -39,13 +43,22 @@ class SlideActivity : FragmentActivity() {
             }
 
         btn_update.setOnClickListener{
-            updateWeather()
+
             //можно перейти к первому экрану и перерисовать первый/второй
+
             val intent = Intent(baseContext, SlideActivity::class.java)
-            Thread.sleep(450)
-            startActivity(intent)
-            finish()
+            start = false
+            updateWeather()
+            GlobalScope.launch { // launch a new coroutine in background and continue
+                do {
+                    Thread.sleep(150)
+                } while (!start)
+                startActivity(intent)
+                finish()
+            }
+
         }
+
         deup.setOnClickListener {
             val dbHelper = WeatherDBHelper(baseContext)
             val db = dbHelper.writableDatabase
@@ -61,7 +74,6 @@ class SlideActivity : FragmentActivity() {
     fun updateWeather(){
         val dbHelper = WeatherDBHelper(baseContext)
         val db = dbHelper.readableDatabase
-        //db.delete(DBWeather.TABLE_NAME,null,null)
         val projection = arrayOf(BaseColumns._ID, DBCities.COLUMN_NAME_CITY)
         var cursor = db.query(
             DBCities.TABLE_NAME,
@@ -74,21 +86,11 @@ class SlideActivity : FragmentActivity() {
         )
         with(cursor) {
             while (moveToNext()) {
-                Api.updateData(baseContext, getString(getColumnIndexOrThrow(DBCities.COLUMN_NAME_CITY)))
-            }
-        }
-        cursor = db.query(
-            DBWeather.TABLE_NAME,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-        with(cursor) {
-            while (moveToNext()) {
-                Log.d("M_MenuActivity", getString(getColumnIndexOrThrow(DBWeather.LOCATION_NAME)))
+                Api.updateData(
+                    baseContext,
+                    getString(getColumnIndexOrThrow(DBCities.COLUMN_NAME_CITY)),
+                    cursor.isFirst
+                )
             }
         }
     }

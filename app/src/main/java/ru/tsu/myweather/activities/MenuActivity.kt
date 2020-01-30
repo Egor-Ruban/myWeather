@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.transition.Slide
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -29,15 +30,6 @@ class MenuActivity : AppCompatActivity() {
         reset_db.setOnClickListener {
             val dbHelper = WeatherDBHelper(baseContext)
             val db = dbHelper.writableDatabase
-            //db.execSQL(DBCities.SQL_DELETE_ENTRIES)
-            //db.execSQL(DBCities.SQL_CREATE_ENTRIES)
-            //db.execSQL(DBWeather.SQL_DELETE_ENTRIES)
-            //db.execSQL(DBWeather.SQL_CREATE_ENTRIES)
-            //val values = ContentValues().apply {
-            //    put(DBCities.COLUMN_NAME_CITY, "fetch:ip")
-            //}
-            //db.insert(DBCities.TABLE_NAME, null, values)
-            //Api.beginSearch(baseContext, "fetch:ip")
             db.delete(DBCities.TABLE_NAME,null,null)
             db.delete(DBWeather.TABLE_NAME,null,null)
             addCity("fetch:ip")

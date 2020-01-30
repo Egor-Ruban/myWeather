@@ -9,7 +9,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import ru.tsu.myweather.activities.SlideActivity
+import ru.tsu.myweather.activities.start
 import ru.tsu.myweather.models.Data
+import ru.tsu.myweather.models.SlideFragment
 import ru.tsu.myweather.models.WeatherDBHelper
 
 
@@ -26,7 +29,7 @@ interface Api {
             create()
         }
         fun beginSearch(ctx : Context, searchString: String) {
-            val res = api.getModel("6da4cdcc62d4d30bdd4a317b7dea6ecf", searchString)
+            val res = api.getModel("4589e6700339bdf5930f54fa7d513268", searchString)
             res.enqueue(object : Callback<Data.Model> {
                 override fun onResponse(
                     call: Call<Data.Model>?,
@@ -45,18 +48,19 @@ interface Api {
                 ) {
                     Log.d("M_MenuActivity", "failure $t")
                 }
-            })
+            });
         }
 
-        fun updateData(ctx:Context, city : String){
-            val res = api.getModel("6da4cdcc62d4d30bdd4a317b7dea6ecf", city)
+        fun updateData(ctx:Context, city : String, isFirst : Boolean){
+            val res = api.getModel("4589e6700339bdf5930f54fa7d513268", city)
             res.enqueue(object : Callback<Data.Model> {
                 override fun onResponse(
                     call: Call<Data.Model>?,
                     response: Response<Data.Model>
                 ) {
                     if (response.isSuccessful) {
-                        WeatherDBHelper.updateWeather(ctx, response.body()!!)
+                        WeatherDBHelper.updateWeather(ctx, response.body()!!, isFirst)
+
                     } else {
                         Log.d("M_MenuActivity", "response code " + response.code())
                     }

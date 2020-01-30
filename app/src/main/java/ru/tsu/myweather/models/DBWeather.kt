@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import android.util.Log
-import ru.tsu.myweather.Api
+import ru.tsu.myweather.activities.start
 
 object DBCities : BaseColumns {
     const val TABLE_NAME = "cities"
@@ -17,7 +17,7 @@ object DBCities : BaseColumns {
     const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
 }
 
-object DBWeather{
+object DBWeather : BaseColumns {
     const val TABLE_NAME = "weather"
     const val REQUEST_TYPE = "request_type"
     const val REQUEST_QUERY = "query"
@@ -91,7 +91,6 @@ object DBWeather{
 class WeatherDBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
-    val ctx = context
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DBWeather.SQL_CREATE_ENTRIES)
         db.execSQL(DBCities.SQL_CREATE_ENTRIES)
@@ -106,12 +105,12 @@ class WeatherDBHelper(context: Context) :
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "weather.db"
-        fun insertWeather(ctx : Context, data : Data.Model){
+        fun insertWeather(ctx: Context, data: Data.Model) {
             val dbHelper = WeatherDBHelper(ctx)
             val db = dbHelper.writableDatabase
 
             val values = ContentValues().apply {
-                if(data.request != null) {
+                if (data.request != null) {
                     put(DBWeather.REQUEST_TYPE, data.request.type)
                     put(DBWeather.REQUEST_QUERY, data.request.query)
                     put(DBWeather.REQUEST_LANGUAGE, data.request.language)
@@ -145,7 +144,7 @@ class WeatherDBHelper(context: Context) :
                     put(DBWeather.CURRENT_VISIBILITY, data.current.visibility)
                     put(DBWeather.CURRENT_IS_DAY, data.current.is_day)
                 }
-                if(data.error != null){
+                if (data.error != null) {
                     put(DBWeather.ERROR_CODE, data.error.code)
                     put(DBWeather.ERROR_TYPE, data.error.type)
                     put(DBWeather.ERROR_INFO, data.error.info)
@@ -155,61 +154,71 @@ class WeatherDBHelper(context: Context) :
             db?.insert(DBWeather.TABLE_NAME, null, values)
         }
 
-        fun updateWeather(ctx : Context, data : Data.Model){
+        fun updateWeather(ctx: Context, data: Data.Model, isFirst: Boolean) {
             val dbHelper = WeatherDBHelper(ctx)
             val db = dbHelper.writableDatabase
 
             val values = ContentValues().apply {
-            if(data.request != null) {
-                put(DBWeather.REQUEST_TYPE, data.request.type)
-                put(DBWeather.REQUEST_QUERY, data.request.query)
-                put(DBWeather.REQUEST_LANGUAGE, data.request.language)
-                put(DBWeather.REQUEST_UNIT, data.request.unit)
-                put(DBWeather.LOCATION_NAME, data.location.name)
-                put(DBWeather.LOCATION_COUNTRY, data.location.country)
-                put(DBWeather.LOCATION_REGION, data.location.region)
-                put(DBWeather.LOCATION_LAT, data.location.lat)
-                put(DBWeather.LOCATION_LON, data.location.lon)
-                put(DBWeather.LOCATION_TIMEZONE_ID, data.location.timezone_id)
-                put(DBWeather.LOCATION_LOCALTIME, data.location.localtime)
-                put(DBWeather.LOCATION_LOCALTIME_EPOCH, data.location.localtime_epoch)
-                put(DBWeather.LOCATION_UTC_OFFSET, data.location.utc_offset)
-                put(DBWeather.CURRENT_OBSERVATION_TIME, data.current.observation_time)
-                put(DBWeather.CURRENT_TEMPERATURE, data.current.temperature)
-                put(DBWeather.CURRENT_WEATHER_CODE, data.current.weather_code)
-                put(DBWeather.CURRENT_WEATHER_ICONS, data.current.weather_icons[0])
-                put(
-                    DBWeather.CURRENT_WEATHER_DESCRIPTIONS,
-                    data.current.weather_descriptions[0]
+                if (data.request != null) {
+                    put(DBWeather.REQUEST_TYPE, data.request.type)
+                    put(DBWeather.REQUEST_QUERY, data.request.query)
+                    put(DBWeather.REQUEST_LANGUAGE, data.request.language)
+                    put(DBWeather.REQUEST_UNIT, data.request.unit)
+                    put(DBWeather.LOCATION_NAME, data.location.name)
+                    put(DBWeather.LOCATION_COUNTRY, data.location.country)
+                    put(DBWeather.LOCATION_REGION, data.location.region)
+                    put(DBWeather.LOCATION_LAT, data.location.lat)
+                    put(DBWeather.LOCATION_LON, data.location.lon)
+                    put(DBWeather.LOCATION_TIMEZONE_ID, data.location.timezone_id)
+                    put(DBWeather.LOCATION_LOCALTIME, data.location.localtime)
+                    put(DBWeather.LOCATION_LOCALTIME_EPOCH, data.location.localtime_epoch)
+                    put(DBWeather.LOCATION_UTC_OFFSET, data.location.utc_offset)
+                    put(DBWeather.CURRENT_OBSERVATION_TIME, data.current.observation_time)
+                    put(DBWeather.CURRENT_TEMPERATURE, data.current.temperature)
+                    put(DBWeather.CURRENT_WEATHER_CODE, data.current.weather_code)
+                    put(DBWeather.CURRENT_WEATHER_ICONS, data.current.weather_icons[0])
+                    put(
+                        DBWeather.CURRENT_WEATHER_DESCRIPTIONS,
+                        data.current.weather_descriptions[0]
+                    )
+                    put(DBWeather.CURRENT_WIND_SPEED, data.current.wind_speed)
+                    put(DBWeather.CURRENT_WIND_DEGREE, data.current.wind_degree)
+                    put(DBWeather.CURRENT_WIND_DIR, data.current.wind_dir)
+                    put(DBWeather.CURRENT_PRESSURE, data.current.pressure)
+                    put(DBWeather.CURRENT_PRECIP, data.current.precip)
+                    put(DBWeather.CURRENT_HUMIDITY, data.current.humidity)
+                    put(DBWeather.CURRENT_CLOUDCOVER, data.current.cloudcover)
+                    put(DBWeather.CURRENT_FEELSLIKE, data.current.feelslike)
+                    put(DBWeather.CURRENT_UV_INDEX, data.current.uv_index)
+                    put(DBWeather.CURRENT_VISIBILITY, data.current.visibility)
+                    put(DBWeather.CURRENT_IS_DAY, data.current.is_day)
+                }
+                if (data.error != null) {
+                    put(DBWeather.ERROR_CODE, data.error.code)
+                    put(DBWeather.ERROR_TYPE, data.error.type)
+                    put(DBWeather.ERROR_INFO, data.error.info)
+                }
+            }
+            if (isFirst) {
+                db.update(DBWeather.TABLE_NAME, values, "${BaseColumns._ID} = ?", arrayOf("1"))
+                Log.d("M_DBWeather", "$start ${data.location.name}")
+                start = true
+            } else {
+                db.update(
+                    DBWeather.TABLE_NAME,
+                    values,
+                    "${DBWeather.LOCATION_NAME} = ?",
+                    arrayOf(data.location.name)
                 )
-                put(DBWeather.CURRENT_WIND_SPEED, data.current.wind_speed)
-                put(DBWeather.CURRENT_WIND_DEGREE, data.current.wind_degree)
-                put(DBWeather.CURRENT_WIND_DIR, data.current.wind_dir)
-                put(DBWeather.CURRENT_PRESSURE, data.current.pressure)
-                put(DBWeather.CURRENT_PRECIP, data.current.precip)
-                put(DBWeather.CURRENT_HUMIDITY, data.current.humidity)
-                put(DBWeather.CURRENT_CLOUDCOVER, data.current.cloudcover)
-                put(DBWeather.CURRENT_FEELSLIKE, data.current.feelslike)
-                put(DBWeather.CURRENT_UV_INDEX, data.current.uv_index)
-                put(DBWeather.CURRENT_VISIBILITY, data.current.visibility)
-                put(DBWeather.CURRENT_IS_DAY, data.current.is_day)
             }
-            if(data.error != null){
-                put(DBWeather.ERROR_CODE, data.error.code)
-                put(DBWeather.ERROR_TYPE, data.error.type)
-                put(DBWeather.ERROR_INFO, data.error.info)
-            }
-        }
-            Log.d("M_DBWeather", "update")
-            db.update(DBWeather.TABLE_NAME, values, "${DBWeather.LOCATION_NAME} = ?", arrayOf(data.location.name))
         }
 
-        fun getSize(ctx: Context) : Int{
+        fun getSize(ctx: Context): Int {
             val dbHelper = WeatherDBHelper(ctx)
             val db = dbHelper.readableDatabase
-            val projection = arrayOf(BaseColumns._ID, DBCities.COLUMN_NAME_CITY)
+            val projection = arrayOf(BaseColumns._ID)
             val cursor = db.query(
-                DBCities.TABLE_NAME,
+                DBWeather.TABLE_NAME,
                 projection,
                 null,
                 null,
